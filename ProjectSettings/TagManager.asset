@@ -15,6 +15,7 @@ TagManager:
   - RoofTrigger
   - Car
   - Checkpoint
+  - GasPump
   layers:
   - Default
   - TransparentFX

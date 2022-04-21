@@ -4,11 +4,13 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
     public TMP_Text HintBar;
     public TMP_Text ResultText;
+    public Slider gasSlider;
     public bool cursorActive = true;
     public GameObject EndScreen;
     public GameObject pauseScreen;
@@ -34,6 +36,11 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1;
         renderer = playerRef.GetComponentInChildren<SkinnedMeshRenderer>();
     }
+
+    private void Update()
+    {
+        gasSlider.value = carRef.GetComponent<CarController>().currentGas;
+    }
     void EnableCursor(bool enable)
     {
         if (enable)
@@ -56,6 +63,7 @@ public class GameManager : Singleton<GameManager>
         {
             isDriving = !isDriving;
             carRef.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            playerRef.GetComponent<Rigidbody>().velocity = Vector3.zero;
             camera.Follow = playerTarget;
             renderer.enabled = true;
             Debug.Log("Is Driving: " + isDriving);

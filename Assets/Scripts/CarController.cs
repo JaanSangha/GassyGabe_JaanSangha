@@ -18,6 +18,8 @@ public class CarController : MonoBehaviour
     Vector2 moveDirectionRight = Vector2.zero;
     float inputFloat = 0;
     float moveDirection = 0;
+    public float currentGas = 0;
+
     Vector2 moveDirectionLeft = Vector2.zero;
     Vector2 lookInput = Vector2.zero;
     public GameManager gameManager;
@@ -66,11 +68,23 @@ public class CarController : MonoBehaviour
         }
         else
         {
-            HandleMotor();
-            HandleSteering();
-            UpdateWheels();
+            if(currentGas >0)
+            {
+                HandleMotor();
+                HandleSteering();
+                UpdateWheels();
+                currentGas -= Time.deltaTime;
+            }
+            else
+            {
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
+            }
+
         }
-        
+        if(currentGas>100)
+        {
+            currentGas = 100;
+        }
     }
 
     private void HandleMotor()
@@ -99,10 +113,10 @@ public class CarController : MonoBehaviour
 
     private void UpdateWheels()
     {
-        UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
-        UpdateSingleWheel(frontRightWheelCollider, frontRightWheelTransform);
-        UpdateSingleWheel(backLeftWheelCollider, backLeftWheelTransform);
-        UpdateSingleWheel(backRightWheelCollider, backRightWheelTransform);
+        //UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
+        //UpdateSingleWheel(frontRightWheelCollider, frontRightWheelTransform);
+        //UpdateSingleWheel(backLeftWheelCollider, backLeftWheelTransform);
+        //UpdateSingleWheel(backRightWheelCollider, backRightWheelTransform);
     }
 
     private void UpdateSingleWheel(WheelCollider wheelcollider, Transform wheeltransform)
@@ -114,6 +128,13 @@ public class CarController : MonoBehaviour
         wheeltransform.position = pos;
     }
 
+    public void FillGasTank(float amount)
+    {
+        if(currentGas<100)
+        {
+            currentGas += amount;
+        }
+    }
     public void OnCarThrottle(InputValue value)
     {
         if (gameManager.isDriving)

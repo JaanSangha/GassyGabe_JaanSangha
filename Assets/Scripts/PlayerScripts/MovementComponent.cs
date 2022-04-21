@@ -33,8 +33,7 @@ public class MovementComponent : MonoBehaviour
     
 
     public float aimSensitivity = 0.2f;
-    private bool InCarZone;
-    private bool InSwitchZoneTwo;
+    private bool InCarZone, InGasZone = false;
     private bool InSwitchZoneThree;
     private bool InSwitchZoneFour;
     private bool waterIsRising;
@@ -46,7 +45,7 @@ public class MovementComponent : MonoBehaviour
     public readonly int isJumpingHash = Animator.StringToHash("IsJumping");
     public readonly int isRunningHash = Animator.StringToHash("IsRunning");
     //public readonly int isRollingHash = Animator.StringToHash("IsRolling");
-    //public readonly int isInteractingHash = Animator.StringToHash("IsInteracting");
+    public readonly int isInteractingHash = Animator.StringToHash("IsInteracting");
 
     //car
     public CarController carController;
@@ -133,8 +132,8 @@ public class MovementComponent : MonoBehaviour
         //playerController.isRolling = false;
         //playerAnimator.SetBool(isRollingHash, playerController.isRolling);
 
-        //playerController.isInteracting = false;
-        //playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
+        playerController.isInteracting = false;
+        playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
     }
     public void OnMovement(InputValue value)
     {
@@ -146,7 +145,7 @@ public class MovementComponent : MonoBehaviour
     public void SetInteractFalse()
     {
         playerController.isInteracting = false;
-        //playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
+        playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
         print("Set interact false");
     }
 
@@ -194,13 +193,13 @@ public class MovementComponent : MonoBehaviour
         }
 
         playerController.isInteracting = value.isPressed;
-        //playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
+        playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
 
-        //if(InSwitchZone)
-        //{
-        //    FloorOneSwitches.SetActive(false);
-        //    audioSource.Play();
-        //}
+        if (InGasZone)
+        {
+            carController.FillGasTank(25);
+            audioSource.Play();
+        }
         //else if (InSwitchZoneTwo)
         //{
         //    FloorTwoSwitches.SetActive(false);
@@ -252,7 +251,10 @@ public class MovementComponent : MonoBehaviour
         {
             InCarZone = true;
         }
-
+        if (other.gameObject.CompareTag("GasPump"))
+        {
+            InGasZone = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -260,6 +262,10 @@ public class MovementComponent : MonoBehaviour
         if (other.gameObject.CompareTag("Car"))
         {
             InCarZone = false;
+        }
+        if (other.gameObject.CompareTag("GasPump"))
+        {
+            InGasZone = false;
         }
 
     }
@@ -275,29 +281,10 @@ public class MovementComponent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!waterIsRising)
-        {
-            if (other.CompareTag("WaterTrigger"))
-            {
-               // waveController.GetComponent<WaterMovement>().StartRising();
-                waterIsRising = true;
-                gameManager.SetHintBar("Water Level Rising! Unlock Doors To Find A Way To The Roof!");
-                gameManager.SetRunMusic();
-            }
-        }
 
         if(other.CompareTag("Goal"))
         {
             gameManager.GameOver("You Made It To The Helicopter, You Escaped!");
-        }
-
-        if (other.CompareTag("Water"))
-        {
-            gameManager.GameOver("You Weren't Fast Enough, Try Again!");
-        }
-        if (other.CompareTag("RoofTrigger"))
-        {
-            gameManager.SetHintBar("Make It To The Helicopter To Escape!");
         }
 
     }
