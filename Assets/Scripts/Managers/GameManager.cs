@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -12,13 +13,18 @@ public class GameManager : Singleton<GameManager>
     public GameObject EndScreen;
     public GameObject pauseScreen;
     public GameObject textBG;
-
     public bool IsPaused;
+    public bool isDriving = false;
+    public CinemachineVirtualCamera camera;
+    public Transform playerTarget;
+    public Transform carTarget;
+    public GameObject playerRef;
+    public GameObject carRef;
+
     //sound manager
     public AudioSource audioSource;
     public AudioClip runMusic;
     public AudioClip menuMusic;
-
 
     private void Start()
     {
@@ -42,7 +48,24 @@ public class GameManager : Singleton<GameManager>
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
-    private void OnEnable()
+
+    public void SwapPlayer()
+    {
+        if (isDriving)
+        {
+            isDriving = !isDriving;
+            camera.Follow = playerTarget;
+
+        }
+        else
+        {
+            isDriving = !isDriving;
+            camera.Follow = carTarget;
+        }
+
+    }
+
+        private void OnEnable()
     {
         AppEvents.MouseCursorEnabled += EnableCursor;
     }

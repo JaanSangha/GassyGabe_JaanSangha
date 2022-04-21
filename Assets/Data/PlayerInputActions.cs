@@ -27,6 +27,22 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""CarThrottle"",
+                    ""type"": ""Button"",
+                    ""id"": ""d3700472-848a-4760-87e7-9684cbd0cc4c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""CarTurn"",
+                    ""type"": ""Value"",
+                    ""id"": ""dceace59-c31c-4c05-9e0a-d545489652d2"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""3d29b3b1-234f-4468-ac58-d7ee822f82c4"",
@@ -47,6 +63,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""037fe53a-21d5-4424-9e75-434bd9b7165c"",
                     ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""EnterCar"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f4e4f78-2b1d-40e6-ae8f-a3c9a4b15ec3"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -81,6 +105,22 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""TurnRight"",
+                    ""type"": ""Value"",
+                    ""id"": ""159f79d8-bc81-4e15-8665-b8b72d8fbd63"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""TurnLeft"",
+                    ""type"": ""Value"",
+                    ""id"": ""c5bcb6cf-3bf9-447a-b3d2-8b778ed01170"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -182,6 +222,127 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""b3c1cd6b-4f6b-4a1f-8d38-4bca358bb49a"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnRight"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""1df05ebf-df99-47c4-9ab3-4173e22c51dd"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""5ef34cdb-abea-4105-9c0f-22e277e5eb49"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnLeft"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""cca0d9e7-bd57-4856-beda-3da324a271eb"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TurnLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""97f0a616-02b3-44a9-9417-d100e02009ff"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarThrottle"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""021da486-8e22-4eef-9f1a-c7f0a8a900a7"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarThrottle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""0a7ac346-5dfe-471f-902d-9d4091032499"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarThrottle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""2045618f-5596-4436-a228-f391f1aa95de"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarTurn"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""47967f96-8084-4547-a268-8513762a5876"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""f4df8e57-984d-48e7-9c19-ef867f4ca7bc"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CarTurn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab3a6369-5a7d-48fb-b7e5-7b1a6f37c449"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EnterCar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -191,13 +352,18 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         // PlayerActionMap
         m_PlayerActionMap = asset.FindActionMap("PlayerActionMap", throwIfNotFound: true);
         m_PlayerActionMap_Movement = m_PlayerActionMap.FindAction("Movement", throwIfNotFound: true);
+        m_PlayerActionMap_CarThrottle = m_PlayerActionMap.FindAction("CarThrottle", throwIfNotFound: true);
+        m_PlayerActionMap_CarTurn = m_PlayerActionMap.FindAction("CarTurn", throwIfNotFound: true);
         m_PlayerActionMap_Jump = m_PlayerActionMap.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActionMap_Roll = m_PlayerActionMap.FindAction("Roll", throwIfNotFound: true);
         m_PlayerActionMap_Interact = m_PlayerActionMap.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerActionMap_EnterCar = m_PlayerActionMap.FindAction("EnterCar", throwIfNotFound: true);
         m_PlayerActionMap_Run = m_PlayerActionMap.FindAction("Run", throwIfNotFound: true);
         m_PlayerActionMap_Aim = m_PlayerActionMap.FindAction("Aim", throwIfNotFound: true);
         m_PlayerActionMap_Look = m_PlayerActionMap.FindAction("Look", throwIfNotFound: true);
         m_PlayerActionMap_Pause = m_PlayerActionMap.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerActionMap_TurnRight = m_PlayerActionMap.FindAction("TurnRight", throwIfNotFound: true);
+        m_PlayerActionMap_TurnLeft = m_PlayerActionMap.FindAction("TurnLeft", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -248,25 +414,35 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerActionMap;
     private IPlayerActionMapActions m_PlayerActionMapActionsCallbackInterface;
     private readonly InputAction m_PlayerActionMap_Movement;
+    private readonly InputAction m_PlayerActionMap_CarThrottle;
+    private readonly InputAction m_PlayerActionMap_CarTurn;
     private readonly InputAction m_PlayerActionMap_Jump;
     private readonly InputAction m_PlayerActionMap_Roll;
     private readonly InputAction m_PlayerActionMap_Interact;
+    private readonly InputAction m_PlayerActionMap_EnterCar;
     private readonly InputAction m_PlayerActionMap_Run;
     private readonly InputAction m_PlayerActionMap_Aim;
     private readonly InputAction m_PlayerActionMap_Look;
     private readonly InputAction m_PlayerActionMap_Pause;
+    private readonly InputAction m_PlayerActionMap_TurnRight;
+    private readonly InputAction m_PlayerActionMap_TurnLeft;
     public struct PlayerActionMapActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActionMapActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_PlayerActionMap_Movement;
+        public InputAction @CarThrottle => m_Wrapper.m_PlayerActionMap_CarThrottle;
+        public InputAction @CarTurn => m_Wrapper.m_PlayerActionMap_CarTurn;
         public InputAction @Jump => m_Wrapper.m_PlayerActionMap_Jump;
         public InputAction @Roll => m_Wrapper.m_PlayerActionMap_Roll;
         public InputAction @Interact => m_Wrapper.m_PlayerActionMap_Interact;
+        public InputAction @EnterCar => m_Wrapper.m_PlayerActionMap_EnterCar;
         public InputAction @Run => m_Wrapper.m_PlayerActionMap_Run;
         public InputAction @Aim => m_Wrapper.m_PlayerActionMap_Aim;
         public InputAction @Look => m_Wrapper.m_PlayerActionMap_Look;
         public InputAction @Pause => m_Wrapper.m_PlayerActionMap_Pause;
+        public InputAction @TurnRight => m_Wrapper.m_PlayerActionMap_TurnRight;
+        public InputAction @TurnLeft => m_Wrapper.m_PlayerActionMap_TurnLeft;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -279,6 +455,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnMovement;
+                @CarThrottle.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnCarThrottle;
+                @CarThrottle.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnCarThrottle;
+                @CarThrottle.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnCarThrottle;
+                @CarTurn.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnCarTurn;
+                @CarTurn.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnCarTurn;
+                @CarTurn.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnCarTurn;
                 @Jump.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
@@ -288,6 +470,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInteract;
+                @EnterCar.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEnterCar;
+                @EnterCar.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEnterCar;
+                @EnterCar.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEnterCar;
                 @Run.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnRun;
@@ -300,6 +485,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnPause;
+                @TurnRight.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnTurnRight;
+                @TurnRight.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnTurnRight;
+                @TurnRight.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnTurnRight;
+                @TurnLeft.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnTurnLeft;
+                @TurnLeft.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnTurnLeft;
+                @TurnLeft.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnTurnLeft;
             }
             m_Wrapper.m_PlayerActionMapActionsCallbackInterface = instance;
             if (instance != null)
@@ -307,6 +498,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @CarThrottle.started += instance.OnCarThrottle;
+                @CarThrottle.performed += instance.OnCarThrottle;
+                @CarThrottle.canceled += instance.OnCarThrottle;
+                @CarTurn.started += instance.OnCarTurn;
+                @CarTurn.performed += instance.OnCarTurn;
+                @CarTurn.canceled += instance.OnCarTurn;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
@@ -316,6 +513,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @EnterCar.started += instance.OnEnterCar;
+                @EnterCar.performed += instance.OnEnterCar;
+                @EnterCar.canceled += instance.OnEnterCar;
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
@@ -328,6 +528,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @TurnRight.started += instance.OnTurnRight;
+                @TurnRight.performed += instance.OnTurnRight;
+                @TurnRight.canceled += instance.OnTurnRight;
+                @TurnLeft.started += instance.OnTurnLeft;
+                @TurnLeft.performed += instance.OnTurnLeft;
+                @TurnLeft.canceled += instance.OnTurnLeft;
             }
         }
     }
@@ -335,12 +541,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     public interface IPlayerActionMapActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnCarThrottle(InputAction.CallbackContext context);
+        void OnCarTurn(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnEnterCar(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnTurnRight(InputAction.CallbackContext context);
+        void OnTurnLeft(InputAction.CallbackContext context);
     }
 }

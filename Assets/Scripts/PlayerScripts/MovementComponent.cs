@@ -5,12 +5,8 @@ using UnityEngine.InputSystem;
 
 public class MovementComponent : MonoBehaviour
 {
-    public GameObject FloorOneSwitches;
-    public GameObject FloorTwoSwitches;
-    public GameObject FloorThreeSwitches;
-    public GameObject FloorFourSwitches;
     public Transform SpawnPoint;
-    public GameObject waveController;
+   // public GameObject waveController;
     public GameManager gameManager;
 
     [SerializeField]
@@ -51,6 +47,8 @@ public class MovementComponent : MonoBehaviour
     public readonly int isRollingHash = Animator.StringToHash("IsRolling");
     public readonly int isInteractingHash = Animator.StringToHash("IsInteracting");
 
+    //car
+    public CarController carController;
 
     private void Awake()
     {
@@ -66,9 +64,11 @@ public class MovementComponent : MonoBehaviour
 
         playerControls = new PlayerInputActions();
         transform.position = SpawnPoint.position;
-        waveController = GameObject.FindGameObjectWithTag("Water");
+        //waveController = GameObject.FindGameObjectWithTag("Water");
         gameManager = FindObjectOfType<GameManager>();
         audioSource = GetComponent<AudioSource>();
+        carController = FindObjectOfType<CarController>();
+
     }
     // Start is called before the first frame update
     void Start()
@@ -79,41 +79,47 @@ public class MovementComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //aiming/looking
-        followTarget.transform.rotation *= Quaternion.AngleAxis(lookInput.x * aimSensitivity, Vector3.up);
-        followTarget.transform.rotation *= Quaternion.AngleAxis(lookInput.y * aimSensitivity, Vector3.left);
-
-        var angles = followTarget.transform.localEulerAngles;
-        angles.z = 0;
-
-        var angle = followTarget.transform.localEulerAngles.x;
-
-        if (angle > 180 && angle < 300)
+        if(!gameManager.isDriving)
         {
-            angles.x = 300;
+            //aiming/looking
+            followTarget.transform.rotation *= Quaternion.AngleAxis(lookInput.x * aimSensitivity, Vector3.up);
+            followTarget.transform.rotation *= Quaternion.AngleAxis(lookInput.y * aimSensitivity, Vector3.left);
+
+            var angles = followTarget.transform.localEulerAngles;
+            angles.z = 0;
+
+            var angle = followTarget.transform.localEulerAngles.x;
+
+            if (angle > 180 && angle < 300)
+            {
+                angles.x = 300;
+            }
+            else if (angle < 180 && angle > 70)
+            {
+                angles.x = 70;
+            }
+
+            followTarget.transform.localEulerAngles = angles;
+
+            //rotate player rotation based on look
+            transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
+
+            followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
+
+            //movement
+            if (playerController.isJumping) return;
+            if (!(inputVector.magnitude > 0)) moveDirection = Vector3.zero;
+
+            moveDirection = transform.forward * inputVector.y + transform.right * inputVector.x;
+            float currentSpeed = playerController.isRunning ? runSpeed : walkSpeed;
+
+            Vector3 movementDirection = moveDirection * (currentSpeed * Time.deltaTime);
+
+            transform.position += movementDirection;
         }
-        else if (angle < 180 && angle > 70)
-        {
-            angles.x = 70;
-        }
+       
 
-        followTarget.transform.localEulerAngles = angles;
-
-        //rotate player rotation based on look
-        transform.rotation = Quaternion.Euler(0, followTarget.transform.rotation.eulerAngles.y, 0);
-
-        followTarget.transform.localEulerAngles = new Vector3(angles.x, 0, 0);
-
-        //movement
-        if (playerController.isJumping) return;
-        if (!(inputVector.magnitude > 0)) moveDirection = Vector3.zero;
-
-        moveDirection = transform.forward * inputVector.y + transform.right * inputVector.x;
-        float currentSpeed = playerController.isRunning ? runSpeed : walkSpeed;
-
-        Vector3 movementDirection = moveDirection * (currentSpeed * Time.deltaTime);
-
-        transform.position += movementDirection;
+        CarUpdate();
     }
 
     public void LateUpdate()
@@ -184,26 +190,26 @@ public class MovementComponent : MonoBehaviour
         playerController.isInteracting = value.isPressed;
         playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
 
-        if(InSwitchZone)
-        {
-            FloorOneSwitches.SetActive(false);
-            audioSource.Play();
-        }
-        else if (InSwitchZoneTwo)
-        {
-            FloorTwoSwitches.SetActive(false);
-            audioSource.Play();
-        }
-        else if (InSwitchZoneThree)
-        {
-            FloorThreeSwitches.SetActive(false);
-            audioSource.Play();
-        }
-        else if (InSwitchZoneFour)
-        {
-            FloorFourSwitches.SetActive(false);
-            audioSource.Play();
-        }
+        //if(InSwitchZone)
+        //{
+        //    FloorOneSwitches.SetActive(false);
+        //    audioSource.Play();
+        //}
+        //else if (InSwitchZoneTwo)
+        //{
+        //    FloorTwoSwitches.SetActive(false);
+        //    audioSource.Play();
+        //}
+        //else if (InSwitchZoneThree)
+        //{
+        //    FloorThreeSwitches.SetActive(false);
+        //    audioSource.Play();
+        //}
+        //else if (InSwitchZoneFour)
+        //{
+        //    FloorFourSwitches.SetActive(false);
+        //    audioSource.Play();
+        //}
     }
     public void OnLook(InputValue value)
     {
@@ -222,7 +228,17 @@ public class MovementComponent : MonoBehaviour
             gameManager.PauseGame();
         }
     }
-        private void OnTriggerStay(Collider other)
+
+    public void OnEnterCar(InputValue value)
+    {
+        if (carController == null) return;
+
+        gameManager.SwapPlayer();
+
+    }
+
+        
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Switch"))
         {
@@ -277,7 +293,7 @@ public class MovementComponent : MonoBehaviour
         {
             if (other.CompareTag("WaterTrigger"))
             {
-                waveController.GetComponent<WaterMovement>().StartRising();
+               // waveController.GetComponent<WaterMovement>().StartRising();
                 waterIsRising = true;
                 gameManager.SetHintBar("Water Level Rising! Unlock Doors To Find A Way To The Roof!");
                 gameManager.SetRunMusic();
@@ -298,5 +314,10 @@ public class MovementComponent : MonoBehaviour
             gameManager.SetHintBar("Make It To The Helicopter To Escape!");
         }
 
+    }
+
+    private void CarUpdate()
+    {
+        
     }
 }
