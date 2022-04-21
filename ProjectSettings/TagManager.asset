@@ -13,6 +13,7 @@ TagManager:
   - WaterTrigger
   - Goal
   - RoofTrigger
+  - Car
   layers:
   - Default
   - TransparentFX

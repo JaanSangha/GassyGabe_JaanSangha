@@ -552,7 +552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5715831020065093341
 Transform:
   m_ObjectHideFlags: 0
@@ -633,12 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8087e6d95bd3d9d4bae26cd41fa25d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FloorOneSwitches: {fileID: 0}
-  FloorTwoSwitches: {fileID: 0}
-  FloorThreeSwitches: {fileID: 0}
-  FloorFourSwitches: {fileID: 0}
   SpawnPoint: {fileID: 0}
-  waveController: {fileID: 0}
   gameManager: {fileID: 0}
   walkSpeed: 5
   runSpeed: 10
@@ -646,6 +641,8 @@ MonoBehaviour:
   rollForce: 5
   followTarget: {fileID: 5110643482758501093}
   aimSensitivity: 0.08
+  carController: {fileID: 0}
+  carRef: {fileID: 0}
 --- !u!114 &4907066157675260952
 MonoBehaviour:
   m_ObjectHideFlags: 0

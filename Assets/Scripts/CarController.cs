@@ -56,22 +56,21 @@ public class CarController : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (gameManager.isDriving)
+        if (!gameManager.isDriving)
         {
-            Debug.Log(inputFloat);
-            //Debug.Log(moveDirection.x);
-            Debug.Log(steerAngle);
+            steerAngle = 0;
+            inputFloat = 0;
+            moveDirection = 0;
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-            GetInput();
+        }
+        else
+        {
             HandleMotor();
             HandleSteering();
             UpdateWheels();
         }
-    }
-
-    private void GetInput()
-    {
-
+        
     }
 
     private void HandleMotor()
@@ -79,8 +78,7 @@ public class CarController : MonoBehaviour
         frontLeftWheelCollider.motorTorque = inputFloat * motorPower;
         frontRightWheelCollider.motorTorque = inputFloat * motorPower;
         breakPower = isBreaking ? breakPower : 0f;
-        ApplyBreaking();
-        
+        //ApplyBreaking();        
     }
 
     private void ApplyBreaking()
@@ -115,31 +113,19 @@ public class CarController : MonoBehaviour
         wheeltransform.rotation = rot;
         wheeltransform.position = pos;
     }
-    //public void OnMovement(InputValue value)
-    //{
-    //    inputVector = value.Get<Vector2>();
-    //    verticalInput = value.Get<Vector2>().x;
-    //    // playerAnimator.SetFloat(movementXHash, inputVector.x);
-    //    // playerAnimator.SetFloat(movementYHash, inputVector.y);
-    //}
-
-    //public void OnTurnRight(InputValue value)
-    //{
-    //    moveDirectionRight = value.Get<Vector2>();
-    //}
-    //public void OnTurnLeft(InputValue value)
-    //{
-    //    moveDirectionRight = -(value.Get<Vector2>());
-    //}
 
     public void OnCarThrottle(InputValue value)
     {
-        inputFloat = value.Get<float>();
-        verticalInput = value.Get<float>();
+        if (gameManager.isDriving)
+        {
+            inputFloat = value.Get<float>();
+        }
     }
     public void OnCarTurn(InputValue value)
     {
-        moveDirection = value.Get<float>();
-
+        if (gameManager.isDriving)
+        {
+            moveDirection = value.Get<float>();
+        }
     }
 }

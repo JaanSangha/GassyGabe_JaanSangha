@@ -21,6 +21,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject playerRef;
     public GameObject carRef;
 
+    private SkinnedMeshRenderer renderer;
     //sound manager
     public AudioSource audioSource;
     public AudioClip runMusic;
@@ -31,7 +32,7 @@ public class GameManager : Singleton<GameManager>
         audioSource = GetComponent<AudioSource>();
         IsPaused = false;
         Time.timeScale = 1;
-
+        renderer = playerRef.GetComponentInChildren<SkinnedMeshRenderer>();
     }
     void EnableCursor(bool enable)
     {
@@ -54,13 +55,20 @@ public class GameManager : Singleton<GameManager>
         if (isDriving)
         {
             isDriving = !isDriving;
+            carRef.GetComponent<Rigidbody>().velocity = Vector3.zero;
             camera.Follow = playerTarget;
-
+            renderer.enabled = true;
+            Debug.Log("Is Driving: " + isDriving);
+            playerRef.transform.parent = null;
+            playerRef.transform.position = new Vector3(carRef.transform.position.x - 3, carRef.transform.position.y, carRef.transform.position.z);
         }
         else
         {
             isDriving = !isDriving;
             camera.Follow = carTarget;
+            playerRef.transform.parent = carRef.transform;
+            renderer.enabled = false;
+            Debug.Log("Is Driving: " + isDriving);
         }
 
     }

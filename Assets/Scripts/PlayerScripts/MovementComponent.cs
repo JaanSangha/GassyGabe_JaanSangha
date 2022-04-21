@@ -30,9 +30,10 @@ public class MovementComponent : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     Vector2 lookInput = Vector2.zero;
     PlayerInputActions playerControls;
+    
 
     public float aimSensitivity = 0.2f;
-    private bool InSwitchZone;
+    private bool InCarZone;
     private bool InSwitchZoneTwo;
     private bool InSwitchZoneThree;
     private bool InSwitchZoneFour;
@@ -44,11 +45,12 @@ public class MovementComponent : MonoBehaviour
     public readonly int movementYHash = Animator.StringToHash("MovementY");
     public readonly int isJumpingHash = Animator.StringToHash("IsJumping");
     public readonly int isRunningHash = Animator.StringToHash("IsRunning");
-    public readonly int isRollingHash = Animator.StringToHash("IsRolling");
-    public readonly int isInteractingHash = Animator.StringToHash("IsInteracting");
+    //public readonly int isRollingHash = Animator.StringToHash("IsRolling");
+    //public readonly int isInteractingHash = Animator.StringToHash("IsInteracting");
 
     //car
     public CarController carController;
+    public GameObject carRef;
 
     private void Awake()
     {
@@ -117,9 +119,13 @@ public class MovementComponent : MonoBehaviour
 
             transform.position += movementDirection;
         }
-       
+        else
+        {
+            CarUpdate();
 
-        CarUpdate();
+        }
+
+
     }
 
     public void LateUpdate()
@@ -140,14 +146,14 @@ public class MovementComponent : MonoBehaviour
     public void SetInteractFalse()
     {
         playerController.isInteracting = false;
-        playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
+        //playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
         print("Set interact false");
     }
 
     public void SetRollingFalse()
     {
         playerController.isRolling = false;
-        playerAnimator.SetBool(isRollingHash, playerController.isRolling);
+        //playerAnimator.SetBool(isRollingHash, playerController.isRolling);
         print("Set rolling false");
     }
     public void OnRun(InputValue value)
@@ -158,14 +164,14 @@ public class MovementComponent : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        //if(playerController.isJumping)
-        //{
-        //    return;
-        //}
+        if (playerController.isJumping)
+        {
+            return;
+        }
 
-        //playerController.isJumping = value.isPressed;
-        //playerAnimator.SetBool(isJumpingHash, playerController.isJumping);
-        //rigidbody.AddForce((transform.up + moveDirection) * jumpForce, ForceMode.Impulse);
+        playerController.isJumping = value.isPressed;
+        playerAnimator.SetBool(isJumpingHash, playerController.isJumping);
+        rigidbody.AddForce((transform.up + moveDirection) * jumpForce, ForceMode.Impulse);
     }
 
     public void OnRoll(InputValue value)
@@ -176,7 +182,7 @@ public class MovementComponent : MonoBehaviour
         }
 
         playerController.isRolling = value.isPressed;
-        playerAnimator.SetBool(isRollingHash, playerController.isRolling);
+       // playerAnimator.SetBool(isRollingHash, playerController.isRolling);
         rigidbody.AddForce((transform.forward + moveDirection) * rollForce, ForceMode.Impulse);
     }
 
@@ -188,7 +194,7 @@ public class MovementComponent : MonoBehaviour
         }
 
         playerController.isInteracting = value.isPressed;
-        playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
+        //playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
 
         //if(InSwitchZone)
         //{
@@ -231,51 +237,31 @@ public class MovementComponent : MonoBehaviour
 
     public void OnEnterCar(InputValue value)
     {
-        if (carController == null) return;
+        if (InCarZone)
+        {
+            if (carController == null) return;
 
-        gameManager.SwapPlayer();
-
+            gameManager.SwapPlayer();
+        }
     }
 
         
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Switch"))
+        if (other.gameObject.CompareTag("Car"))
         {
-            InSwitchZone = true;
+            InCarZone = true;
         }
-        else if (other.gameObject.CompareTag("Switch2"))
-        {
-            InSwitchZoneTwo = true;
-        }
-        else if (other.gameObject.CompareTag("Switch3"))
-        {
-            InSwitchZoneThree = true;
-        }
-        else if (other.gameObject.CompareTag("Switch4"))
-        {
-            InSwitchZoneFour = true;
-        }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Switch"))
+        if (other.gameObject.CompareTag("Car"))
         {
-            InSwitchZone = false;
+            InCarZone = false;
         }
-        else if (other.gameObject.CompareTag("Switch2"))
-        {
-            InSwitchZoneTwo = false;
-        }
-        else if (other.gameObject.CompareTag("Switch3"))
-        {
-            InSwitchZoneThree = false;
-        }
-        else if (other.gameObject.CompareTag("Switch4"))
-        {
-            InSwitchZoneFour = false;
-        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -318,6 +304,6 @@ public class MovementComponent : MonoBehaviour
 
     private void CarUpdate()
     {
-        
+        this.gameObject.transform.position = carRef.transform.position;
     }
 }
