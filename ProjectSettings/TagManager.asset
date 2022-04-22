@@ -14,8 +14,14 @@ TagManager:
   - Goal
   - RoofTrigger
   - Car
-  - Checkpoint
   - GasPump
+  - CheckpointOne
+  - CheckpointTwo
+  - CheckpointThree
+  - CheckpointFour
+  - Checkpoint
+  - CheckpointFive
+  - CheckpointSix
   layers:
   - Default
   - TransparentFX

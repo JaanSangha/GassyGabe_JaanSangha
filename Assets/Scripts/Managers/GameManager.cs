@@ -10,6 +10,8 @@ public class GameManager : Singleton<GameManager>
 {
     public TMP_Text HintBar;
     public TMP_Text ResultText;
+    public TMP_Text checkpointText;
+    public TMP_Text speedText;
     public Slider gasSlider;
     public bool cursorActive = true;
     public GameObject EndScreen;
@@ -23,7 +25,10 @@ public class GameManager : Singleton<GameManager>
     public GameObject playerRef;
     public GameObject carRef;
 
+    private float checkpointTimer=10;
     private SkinnedMeshRenderer renderer;
+    public bool isRacing;
+    public bool wonRace = false;
     //sound manager
     public AudioSource audioSource;
     public AudioClip runMusic;
@@ -39,7 +44,19 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
+        if (isDriving)
+        {
+            checkpointText.text = (checkpointTimer.ToString("F0"));
+            speedText.text = (carRef.GetComponent<CarController>().speed.ToString("F0") + " KM/H");
+        }
+
+        if (isRacing)
+        {
+            checkpointTimer -= Time.deltaTime;
+        }
+
         gasSlider.value = carRef.GetComponent<CarController>().currentGas;
+
     }
     void EnableCursor(bool enable)
     {
@@ -55,6 +72,17 @@ public class GameManager : Singleton<GameManager>
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
+
+    public void HitCheckpoint()
+    {
+        checkpointTimer = 10;
+    }
+
+    public void WinRace()
+    {
+        wonRace = true;
+        isRacing = false;
     }
 
     public void SwapPlayer()

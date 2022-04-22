@@ -33,11 +33,7 @@ public class MovementComponent : MonoBehaviour
     
 
     public float aimSensitivity = 0.2f;
-    private bool InCarZone, InGasZone = false;
-    private bool InSwitchZoneThree;
-    private bool InSwitchZoneFour;
-    private bool waterIsRising;
-
+    private bool InCarZone, InGasZone= false;
 
     //animator hashes
     public readonly int movementXHash = Animator.StringToHash("MovementX");
@@ -195,7 +191,7 @@ public class MovementComponent : MonoBehaviour
         playerController.isInteracting = value.isPressed;
         playerAnimator.SetBool(isInteractingHash, playerController.isInteracting);
 
-        if (InGasZone)
+        if (InGasZone && InCarZone)
         {
             carController.FillGasTank(25);
             audioSource.Play();
@@ -286,6 +282,7 @@ public class MovementComponent : MonoBehaviour
         {
             gameManager.GameOver("You Made It To The Helicopter, You Escaped!");
         }
+     
 
     }
 

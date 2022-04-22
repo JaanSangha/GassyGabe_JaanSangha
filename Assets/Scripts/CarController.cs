@@ -13,6 +13,7 @@ public class CarController : MonoBehaviour
     [SerializeField]
     private float steerAngle;
     private bool isBreaking;
+
     //references
     Vector2 inputVector = Vector2.zero;
     Vector2 moveDirectionRight = Vector2.zero;
@@ -23,6 +24,12 @@ public class CarController : MonoBehaviour
     Vector2 moveDirectionLeft = Vector2.zero;
     Vector2 lookInput = Vector2.zero;
     public GameManager gameManager;
+    public Transform respawnPoint;
+
+    private Rigidbody rigidbody;
+    //checkpoint stuff
+    public int currentCheckpoint = 0;
+    private bool reachedCheckpointOne, reachedCheckpointTwo, reachedCheckpointThree, reachedCheckpointFour, reachedCheckpointFive, reachedCheckpointSix = false;
 
     [SerializeField]
     private float motorPower;
@@ -30,6 +37,8 @@ public class CarController : MonoBehaviour
     private float breakPower;
     [SerializeField]
     private float maxSteeringAngle;
+
+    public float speed;
 
     [SerializeField]
     private WheelCollider frontRightWheelCollider;
@@ -52,7 +61,7 @@ public class CarController : MonoBehaviour
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -63,7 +72,7 @@ public class CarController : MonoBehaviour
             steerAngle = 0;
             inputFloat = 0;
             moveDirection = 0;
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            rigidbody.velocity = Vector3.zero;
 
         }
         else
@@ -74,23 +83,41 @@ public class CarController : MonoBehaviour
                 HandleSteering();
                 UpdateWheels();
                 currentGas -= Time.deltaTime;
+                speed = rigidbody.velocity.magnitude * 1;
             }
             else
             {
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                rigidbody.velocity = Vector3.zero;
             }
-
+            speed = rigidbody.velocity.sqrMagnitude;
         }
         if(currentGas>100)
         {
             currentGas = 100;
         }
+
+        //if (rigidbody.velocity.x > 10)
+        //{
+        //    rigidbody.velocity = new Vector3(10, rigidbody.velocity.y, rigidbody.velocity.z);
+        //}
+        ////if (rigidbody.velocity.z > 10)
+        ////{
+        ////    rigidbody.velocity = new Vector3(10, rigidbody.velocity.y, rigidbody.velocity.z);
+        ////}
+        //if (rigidbody.velocity.magnitude > 10)
+        //{
+        // //   rigidbody.velocity.magnitude = new Vector3(10,0,0);
+        //}
     }
 
     private void HandleMotor()
     {
-        frontLeftWheelCollider.motorTorque = inputFloat * motorPower;
-        frontRightWheelCollider.motorTorque = inputFloat * motorPower;
+        if (rigidbody.velocity.x < 10 && rigidbody.velocity.z <10)
+        {
+            frontLeftWheelCollider.motorTorque = inputFloat * motorPower;
+            frontRightWheelCollider.motorTorque = inputFloat * motorPower;
+        }
+
         breakPower = isBreaking ? breakPower : 0f;
         //ApplyBreaking();        
     }
@@ -147,6 +174,73 @@ public class CarController : MonoBehaviour
         if (gameManager.isDriving)
         {
             moveDirection = value.Get<float>();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("CheckpointOne"))
+        {
+            if (!reachedCheckpointOne)
+            {
+                currentCheckpoint++;
+                reachedCheckpointOne = true;
+                gameManager.isRacing = true;
+                gameManager.HitCheckpoint();
+            }
+        }
+        if (other.CompareTag("CheckpointTwo"))
+        {
+            if (!reachedCheckpointTwo && reachedCheckpointOne)
+            {
+                currentCheckpoint++;
+                reachedCheckpointTwo = true;
+                gameManager.HitCheckpoint();
+            }
+        }
+        if (other.CompareTag("CheckpointThree"))
+        {
+            if (!reachedCheckpointThree && reachedCheckpointTwo)
+            {
+                currentCheckpoint++;
+                reachedCheckpointThree = true;
+                gameManager.HitCheckpoint();
+            }
+        }
+        if (other.CompareTag("CheckpointFour"))
+        {
+            if (!reachedCheckpointFour && reachedCheckpointThree)
+            {
+                currentCheckpoint++;
+                reachedCheckpointFour = true;
+                gameManager.HitCheckpoint();
+            }
+        }
+        if (other.CompareTag("CheckpointFive"))
+        {
+            if (!reachedCheckpointFive&& reachedCheckpointFour)
+            {
+                currentCheckpoint++;
+                reachedCheckpointFive = true;
+                gameManager.HitCheckpoint();
+            }
+        }
+        if (other.CompareTag("CheckpointSix"))
+        {
+            if (!reachedCheckpointSix && reachedCheckpointFive)
+            {
+                currentCheckpoint++;
+                reachedCheckpointSix = true;
+                gameManager.HitCheckpoint();
+            }
+        }
+        if (other.CompareTag("Goal"))
+        {
+            if (!gameManager.wonRace && reachedCheckpointSix)
+            {
+                currentCheckpoint++;
+                gameManager.WinRace();
+            }
         }
     }
 }
