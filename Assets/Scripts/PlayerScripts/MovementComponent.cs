@@ -33,7 +33,8 @@ public class MovementComponent : MonoBehaviour
     
 
     public float aimSensitivity = 0.2f;
-    private bool InCarZone, InGasZone= false;
+    private bool InCarZone, InGasZone, inFinishZone= false;
+
 
     //animator hashes
     public readonly int movementXHash = Animator.StringToHash("MovementX");
@@ -183,7 +184,7 @@ public class MovementComponent : MonoBehaviour
 
     public void OnInteract(InputValue value)
     {
-        if (playerController.isInteracting)
+        if (playerController.isInteracting || gameManager.isDriving)
         {
             return;
         }
@@ -195,22 +196,14 @@ public class MovementComponent : MonoBehaviour
         {
             carController.FillGasTank(25);
             audioSource.Play();
+            gameManager.SetHintBar("Press 'F' to enter car");
         }
-        //else if (InSwitchZoneTwo)
-        //{
-        //    FloorTwoSwitches.SetActive(false);
-        //    audioSource.Play();
-        //}
-        //else if (InSwitchZoneThree)
-        //{
-        //    FloorThreeSwitches.SetActive(false);
-        //    audioSource.Play();
-        //}
-        //else if (InSwitchZoneFour)
-        //{
-        //    FloorFourSwitches.SetActive(false);
-        //    audioSource.Play();
-        //}
+
+        if (inFinishZone && gameManager.wonRace)
+        {
+            gameManager.GameOver("You Win! Congratulations!");
+        }
+
     }
     public void OnLook(InputValue value)
     {
@@ -229,6 +222,8 @@ public class MovementComponent : MonoBehaviour
             gameManager.PauseGame();
         }
     }
+
+ 
 
     public void OnEnterCar(InputValue value)
     {
@@ -251,6 +246,10 @@ public class MovementComponent : MonoBehaviour
         {
             InGasZone = true;
         }
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            inFinishZone = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -272,17 +271,6 @@ public class MovementComponent : MonoBehaviour
         
         playerController.isJumping = false;
         playerAnimator.SetBool(isJumpingHash, false);
-
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if(other.CompareTag("Goal"))
-        {
-            gameManager.GameOver("You Made It To The Helicopter, You Escaped!");
-        }
-     
 
     }
 

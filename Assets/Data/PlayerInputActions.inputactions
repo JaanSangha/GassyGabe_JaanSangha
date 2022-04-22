@@ -38,6 +38,14 @@
                     "interactions": "Press"
                 },
                 {
+                    "name": "Break",
+                    "type": "Button",
+                    "id": "cb59344f-be2c-499e-af6d-ca4829efe60a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Roll",
                     "type": "Button",
                     "id": "65694086-bf5e-4592-8d3d-644cf2623a43",
@@ -328,6 +336,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "EnterCar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39141351-abcf-4cfa-8fc9-181df88da806",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Break",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

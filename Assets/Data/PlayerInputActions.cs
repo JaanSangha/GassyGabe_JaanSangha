@@ -51,6 +51,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
+                    ""name"": ""Break"",
+                    ""type"": ""Button"",
+                    ""id"": ""cb59344f-be2c-499e-af6d-ca4829efe60a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Roll"",
                     ""type"": ""Button"",
                     ""id"": ""65694086-bf5e-4592-8d3d-644cf2623a43"",
@@ -343,6 +351,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""EnterCar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39141351-abcf-4cfa-8fc9-181df88da806"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Break"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -355,6 +374,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_PlayerActionMap_CarThrottle = m_PlayerActionMap.FindAction("CarThrottle", throwIfNotFound: true);
         m_PlayerActionMap_CarTurn = m_PlayerActionMap.FindAction("CarTurn", throwIfNotFound: true);
         m_PlayerActionMap_Jump = m_PlayerActionMap.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerActionMap_Break = m_PlayerActionMap.FindAction("Break", throwIfNotFound: true);
         m_PlayerActionMap_Roll = m_PlayerActionMap.FindAction("Roll", throwIfNotFound: true);
         m_PlayerActionMap_Interact = m_PlayerActionMap.FindAction("Interact", throwIfNotFound: true);
         m_PlayerActionMap_EnterCar = m_PlayerActionMap.FindAction("EnterCar", throwIfNotFound: true);
@@ -417,6 +437,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActionMap_CarThrottle;
     private readonly InputAction m_PlayerActionMap_CarTurn;
     private readonly InputAction m_PlayerActionMap_Jump;
+    private readonly InputAction m_PlayerActionMap_Break;
     private readonly InputAction m_PlayerActionMap_Roll;
     private readonly InputAction m_PlayerActionMap_Interact;
     private readonly InputAction m_PlayerActionMap_EnterCar;
@@ -434,6 +455,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @CarThrottle => m_Wrapper.m_PlayerActionMap_CarThrottle;
         public InputAction @CarTurn => m_Wrapper.m_PlayerActionMap_CarTurn;
         public InputAction @Jump => m_Wrapper.m_PlayerActionMap_Jump;
+        public InputAction @Break => m_Wrapper.m_PlayerActionMap_Break;
         public InputAction @Roll => m_Wrapper.m_PlayerActionMap_Roll;
         public InputAction @Interact => m_Wrapper.m_PlayerActionMap_Interact;
         public InputAction @EnterCar => m_Wrapper.m_PlayerActionMap_EnterCar;
@@ -464,6 +486,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
+                @Break.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnBreak;
+                @Break.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnBreak;
+                @Break.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnBreak;
                 @Roll.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnRoll;
                 @Roll.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnRoll;
                 @Roll.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnRoll;
@@ -507,6 +532,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Break.started += instance.OnBreak;
+                @Break.performed += instance.OnBreak;
+                @Break.canceled += instance.OnBreak;
                 @Roll.started += instance.OnRoll;
                 @Roll.performed += instance.OnRoll;
                 @Roll.canceled += instance.OnRoll;
@@ -544,6 +572,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnCarThrottle(InputAction.CallbackContext context);
         void OnCarTurn(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnBreak(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnEnterCar(InputAction.CallbackContext context);

@@ -24,6 +24,11 @@ public class GameManager : Singleton<GameManager>
     public Transform carTarget;
     public GameObject playerRef;
     public GameObject carRef;
+    public GameObject endTrigger;
+    public GameObject drivingScreen;
+    public GameObject racingScreen;
+
+
 
     private float checkpointTimer=10;
     private SkinnedMeshRenderer renderer;
@@ -48,11 +53,26 @@ public class GameManager : Singleton<GameManager>
         {
             checkpointText.text = (checkpointTimer.ToString("F0"));
             speedText.text = (carRef.GetComponent<CarController>().speed.ToString("F0") + " KM/H");
+            drivingScreen.SetActive(true);
+        }
+        else
+        {
+            drivingScreen.SetActive(false);
+            racingScreen.SetActive(false);
         }
 
         if (isRacing)
         {
+            racingScreen.SetActive(true);
             checkpointTimer -= Time.deltaTime;
+            if (checkpointTimer < 0)
+            {
+                GameOver("GameOver! You were too slow");
+            }
+        }
+        else
+        {
+            racingScreen.SetActive(false);
         }
 
         gasSlider.value = carRef.GetComponent<CarController>().currentGas;
@@ -83,6 +103,7 @@ public class GameManager : Singleton<GameManager>
     {
         wonRace = true;
         isRacing = false;
+        endTrigger.gameObject.SetActive(true);
     }
 
     public void SwapPlayer()
@@ -91,6 +112,8 @@ public class GameManager : Singleton<GameManager>
         {
             isDriving = !isDriving;
             carRef.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            carRef.GetComponent<CarController>().StopEngine();
+            carRef.GetComponent<CarController>().StopSmoke();
             playerRef.GetComponent<Rigidbody>().velocity = Vector3.zero;
             camera.Follow = playerTarget;
             renderer.enabled = true;
@@ -100,8 +123,14 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
+            if (!isRacing && !wonRace)
+            {
+                SetHintBar("Head to the track to start race!");
+            }
             isDriving = !isDriving;
             camera.Follow = carTarget;
+            carRef.GetComponent<CarController>().PlayEngine();
+            carRef.GetComponent<CarController>().PlaySmoke();
             playerRef.transform.parent = carRef.transform;
             renderer.enabled = false;
             Debug.Log("Is Driving: " + isDriving);
@@ -125,13 +154,14 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver(string result)
     {
+        carRef.GetComponent<CarController>().StopEngine();
         Time.timeScale = 0;
         HintBar.gameObject.SetActive(false);
         EndScreen.SetActive(true);
         ResultText.SetText(result);
         textBG.SetActive(false);
-        audioSource.clip = menuMusic;
-        audioSource.Play();
+        //audioSource.clip = menuMusic;
+        //audioSource.Play();
     }
 
     public void PauseGame()
@@ -151,12 +181,6 @@ public class GameManager : Singleton<GameManager>
         HintBar.gameObject.SetActive(true);
         IsPaused = false;
         textBG.SetActive(true);
-    }
-
-    public void SetRunMusic()
-    {
-        audioSource.clip = runMusic;
-        audioSource.Play();
     }
 
     public void MainMenuPressed()

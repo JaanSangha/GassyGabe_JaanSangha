@@ -25,6 +25,7 @@ public class CarController : MonoBehaviour
     Vector2 lookInput = Vector2.zero;
     public GameManager gameManager;
     public Transform respawnPoint;
+    public AudioSource audioSource;
 
     private Rigidbody rigidbody;
     //checkpoint stuff
@@ -39,6 +40,10 @@ public class CarController : MonoBehaviour
     private float maxSteeringAngle;
 
     public float speed;
+    public ParticleSystem rightSmoke;
+    public ParticleSystem leftSmoke;
+    public GameObject breakingUI;
+
 
     [SerializeField]
     private WheelCollider frontRightWheelCollider;
@@ -89,7 +94,7 @@ public class CarController : MonoBehaviour
             {
                 rigidbody.velocity = Vector3.zero;
             }
-            speed = rigidbody.velocity.sqrMagnitude;
+            speed = rigidbody.velocity.sqrMagnitude / 4;
         }
         if(currentGas>100)
         {
@@ -118,8 +123,8 @@ public class CarController : MonoBehaviour
             frontRightWheelCollider.motorTorque = inputFloat * motorPower;
         }
 
-        breakPower = isBreaking ? breakPower : 0f;
-        //ApplyBreaking();        
+        //breakPower = isBreaking ? breakPower : 0f;
+        ApplyBreaking();        
     }
 
     private void ApplyBreaking()
@@ -155,6 +160,25 @@ public class CarController : MonoBehaviour
         wheeltransform.position = pos;
     }
 
+    public void PlayEngine()
+    {
+        audioSource.Play();
+    }
+    public void StopEngine()
+    {
+        audioSource.Stop();
+
+    }
+    public void PlaySmoke()
+    {
+        rightSmoke.Play();
+        leftSmoke.Play();
+    }
+    public void StopSmoke()
+    {
+        rightSmoke.Stop();
+        leftSmoke.Stop();
+    }
     public void FillGasTank(float amount)
     {
         if(currentGas<100)
@@ -177,6 +201,25 @@ public class CarController : MonoBehaviour
         }
     }
 
+    public void OnBreak(InputValue value)
+    {
+        if (!gameManager.isDriving) return;
+        Debug.Log(value);
+        if (isBreaking)
+        {
+            breakPower = 0;
+            isBreaking = false;
+            breakingUI.SetActive(false);
+        }
+        else
+        {
+            breakPower = 3000;
+            isBreaking = true;
+            breakingUI.SetActive(true);
+        }
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("CheckpointOne"))
@@ -187,6 +230,7 @@ public class CarController : MonoBehaviour
                 reachedCheckpointOne = true;
                 gameManager.isRacing = true;
                 gameManager.HitCheckpoint();
+                gameManager.SetHintBar("Make it to each checkpoint within 10 seconds!");
             }
         }
         if (other.CompareTag("CheckpointTwo"))
@@ -214,6 +258,7 @@ public class CarController : MonoBehaviour
                 currentCheckpoint++;
                 reachedCheckpointFour = true;
                 gameManager.HitCheckpoint();
+                gameManager.SetHintBar("Almost there!");
             }
         }
         if (other.CompareTag("CheckpointFive"))
@@ -240,6 +285,7 @@ public class CarController : MonoBehaviour
             {
                 currentCheckpoint++;
                 gameManager.WinRace();
+                gameManager.SetHintBar("You Won! Press 'E' at the door to end the game");
             }
         }
     }
