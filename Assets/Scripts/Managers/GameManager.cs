@@ -27,7 +27,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject endTrigger;
     public GameObject drivingScreen;
     public GameObject racingScreen;
-
+    public int GameMode = 0;
 
 
     private float checkpointTimer=10;
@@ -49,34 +49,36 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
-        if (isDriving)
+        if (GameMode == 1)
         {
-            checkpointText.text = (checkpointTimer.ToString("F0"));
-            speedText.text = (carRef.GetComponent<CarController>().speed.ToString("F0") + " KM/H");
-            drivingScreen.SetActive(true);
-        }
-        else
-        {
-            drivingScreen.SetActive(false);
-            racingScreen.SetActive(false);
-        }
-
-        if (isRacing)
-        {
-            racingScreen.SetActive(true);
-            checkpointTimer -= Time.deltaTime;
-            if (checkpointTimer < 0)
+            if (isDriving)
             {
-                GameOver("GameOver! You were too slow");
+                checkpointText.text = (checkpointTimer.ToString("F0"));
+                speedText.text = (carRef.GetComponent<CarController>().speed.ToString("F0") + " KM/H");
+                drivingScreen.SetActive(true);
             }
-        }
-        else
-        {
-            racingScreen.SetActive(false);
-        }
+            else
+            {
+                drivingScreen.SetActive(false);
+                racingScreen.SetActive(false);
+            }
 
-        gasSlider.value = carRef.GetComponent<CarController>().currentGas;
+            if (isRacing)
+            {
+                racingScreen.SetActive(true);
+                checkpointTimer -= Time.deltaTime;
+                if (checkpointTimer < 0)
+                {
+                    GameOver("GameOver! You were too slow");
+                }
+            }
+            else
+            {
+                racingScreen.SetActive(false);
+            }
 
+            gasSlider.value = carRef.GetComponent<CarController>().currentGas;
+        }
     }
     void EnableCursor(bool enable)
     {

@@ -8,4 +8,5 @@ public class PlayerController : MonoBehaviour
     public bool isRunning;
     public bool isRolling;
     public bool isInteracting;
+    public bool isStrapped;
 }

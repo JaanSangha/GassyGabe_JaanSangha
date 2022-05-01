@@ -75,6 +75,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""EquipWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d86e050-7dfb-452c-bfdb-a4d7c8f4b939"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""EnterCar"",
                     ""type"": ""Button"",
                     ""id"": ""6f4e4f78-2b1d-40e6-ae8f-a3c9a4b15ec3"",
@@ -362,6 +370,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Break"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""378799ba-f25a-4081-afe6-b52bb909f7a8"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -377,6 +396,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_PlayerActionMap_Break = m_PlayerActionMap.FindAction("Break", throwIfNotFound: true);
         m_PlayerActionMap_Roll = m_PlayerActionMap.FindAction("Roll", throwIfNotFound: true);
         m_PlayerActionMap_Interact = m_PlayerActionMap.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerActionMap_EquipWeapon = m_PlayerActionMap.FindAction("EquipWeapon", throwIfNotFound: true);
         m_PlayerActionMap_EnterCar = m_PlayerActionMap.FindAction("EnterCar", throwIfNotFound: true);
         m_PlayerActionMap_Run = m_PlayerActionMap.FindAction("Run", throwIfNotFound: true);
         m_PlayerActionMap_Aim = m_PlayerActionMap.FindAction("Aim", throwIfNotFound: true);
@@ -440,6 +460,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerActionMap_Break;
     private readonly InputAction m_PlayerActionMap_Roll;
     private readonly InputAction m_PlayerActionMap_Interact;
+    private readonly InputAction m_PlayerActionMap_EquipWeapon;
     private readonly InputAction m_PlayerActionMap_EnterCar;
     private readonly InputAction m_PlayerActionMap_Run;
     private readonly InputAction m_PlayerActionMap_Aim;
@@ -458,6 +479,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @Break => m_Wrapper.m_PlayerActionMap_Break;
         public InputAction @Roll => m_Wrapper.m_PlayerActionMap_Roll;
         public InputAction @Interact => m_Wrapper.m_PlayerActionMap_Interact;
+        public InputAction @EquipWeapon => m_Wrapper.m_PlayerActionMap_EquipWeapon;
         public InputAction @EnterCar => m_Wrapper.m_PlayerActionMap_EnterCar;
         public InputAction @Run => m_Wrapper.m_PlayerActionMap_Run;
         public InputAction @Aim => m_Wrapper.m_PlayerActionMap_Aim;
@@ -495,6 +517,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnInteract;
+                @EquipWeapon.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEquipWeapon;
+                @EquipWeapon.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEquipWeapon;
+                @EquipWeapon.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEquipWeapon;
                 @EnterCar.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEnterCar;
                 @EnterCar.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEnterCar;
                 @EnterCar.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnEnterCar;
@@ -541,6 +566,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @EquipWeapon.started += instance.OnEquipWeapon;
+                @EquipWeapon.performed += instance.OnEquipWeapon;
+                @EquipWeapon.canceled += instance.OnEquipWeapon;
                 @EnterCar.started += instance.OnEnterCar;
                 @EnterCar.performed += instance.OnEnterCar;
                 @EnterCar.canceled += instance.OnEnterCar;
@@ -575,6 +603,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnBreak(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnEquipWeapon(InputAction.CallbackContext context);
         void OnEnterCar(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);

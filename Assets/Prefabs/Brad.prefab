@@ -138,9 +138,10 @@ GameObject:
   - component: {fileID: 4278331860693349078}
   - component: {fileID: 7143452462061840689}
   - component: {fileID: 7029506641448126382}
+  - component: {fileID: -5586730183837892850}
   m_Layer: 0
   m_Name: Brad
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,10 +173,10 @@ Animator:
   m_GameObject: {fileID: 694170478297391294}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 37f8964bb223fe441a4f6a47d366b09b, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f8c0f1269edcb4644a7d59ecf3f8250c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -195,7 +196,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &3786600385472058907
 MonoBehaviour:
@@ -213,6 +214,7 @@ MonoBehaviour:
   isRunning: 0
   isRolling: 0
   isInteracting: 0
+  isStrapped: 0
 --- !u!114 &6709145958625958605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +233,7 @@ MonoBehaviour:
   runSpeed: 10
   jumpForce: 5
   rollForce: 5
-  followTarget: {fileID: 0}
+  followTarget: {fileID: 4143301351246119160}
   aimSensitivity: 0.08
   carController: {fileID: 0}
   carRef: {fileID: 0}
@@ -375,6 +377,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-5586730183837892850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694170478297391294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da00fbc01cad3314eb6c14797da014ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &708332945549247728
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +739,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4831717389535996118}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1768277362166319115
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7873791423515157588}
+  m_Layer: 0
+  m_Name: WeaponSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7873791423515157588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768277362166319115}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7659254482180406803}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1916619464833669703
 GameObject:
@@ -1250,13 +1294,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4143301351246119160}
-  m_LocalRotation: {x: 0.07875908, y: 0.70270693, z: -0.07875908, w: 0.70270693}
-  m_LocalPosition: {x: -47.888702, y: 11.876642, z: 8.332363}
-  m_LocalScale: {x: 0.80000013, y: 0.79999995, z: 0.8}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.81, y: 2.28, z: -2.303}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 209946195668957700}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 12.79, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4651244592696667316
 GameObject:
   m_ObjectHideFlags: 0
@@ -1690,6 +1734,7 @@ Transform:
   - {fileID: 5877918977313598854}
   - {fileID: 446106164657167427}
   - {fileID: 4098202184325639074}
+  - {fileID: 7873791423515157588}
   m_Father: {fileID: 4452433162740108761}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
